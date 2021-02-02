@@ -82,7 +82,7 @@ katex:
 # --------------------------------------
 
 # Favicon（網站圖標）
-favicon: /img/favicon.png
+favicon: https://cdn.jsdelivr.net/gh/HK560/MyPicHub/res/pic/blogLogo.jpg
 
 # Avatar (頭像)
 avatar:
