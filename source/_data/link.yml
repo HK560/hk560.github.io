@@ -1,0 +1,46 @@
+- class_name: 个人网站
+  class_desc: 
+  link_list:
+    - name: HK560's AlterBlog
+      link: https://alterblog.hk560.top/
+      avatar: https://cdn.jsdelivr.net/gh/HK560/MyPicHub/res/pic/avatar_kaltsit_80171517_p0.jpg
+      descr: 另一个奇怪的博客
+    - name: HK560's OneDrive
+      link: https://onedrive.hk560.top/
+      avatar: https://cdn.jsdelivr.net/gh/HK560/MyPicHub/res/pic/onedrive.jpg
+      descr: 一些公开分享的文件
+    - name: MyJsProxy
+      link: https://proxy.hk560.top/
+      avatar: 
+      descr: 看名字懂意思
+
+- class_name: 我在其他社交平台
+  class_desc: 做一个网络透明人也没有什么不好
+  link_list:
+    - name: 我在Bilibili
+      link: https://space.bilibili.com/7342356
+      avatar: https://cdn.jsdelivr.net/gh/HK560/MyPicHub/res/pic/bli_logo.jpg
+      descr: "同性交友网站"
+    - name: 我在网易云
+      link: https://music.163.com/#/user/home?id=41184828
+      avatar: https://cdn.jsdelivr.net/gh/HK560/MyPicHub/res/pic/网易云logo.jpg
+      descr: 音乐真棒
+    - name: 我在Steam
+      link: https://steamcommunity.com/id/hk560/
+      avatar: https://cdn.jsdelivr.net/gh/HK560/MyPicHub/res/pic/1024px-Steam_icon_logo.png
+      descr: 还是游戏好玩
+
+
+- class_name: 友情链接
+  class_desc: 在这个世界上没有朋友是寸步难行的
+  link_list:
+    - name: JerryC
+      link: https://jerryc.me/
+      avatar: https://jerryc.me/image/avatar.png
+      descr: 今日事,今日畢
+    - name: Hexo
+      link: https://hexo.io/zh-tw/
+      avatar: https://d33wubrfki0l68.cloudfront.net/6657ba50e702d84afb32fe846bed54fba1a77add/827ae/logo.svg
+      descr: 快速、簡單且強大的網誌框架
+
+
