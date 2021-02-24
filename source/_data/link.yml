@@ -34,6 +34,10 @@
 - class_name: 友情链接
   class_desc: 在这个世界上没有朋友是寸步难行的
   link_list:
+    - name: 广大义修攻略站
+      link: https://blog.gzhuyx.com/
+      avatar: https://cdn.jsdelivr.net/gh/HK560/MyPicHub/res/pic/logo.png
+      descr: 由广大义修队维护，提供一些PC攻略
     - name: JerryC
       link: https://jerryc.me/
       avatar: https://jerryc.me/image/avatar.png
