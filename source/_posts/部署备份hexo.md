@@ -85,9 +85,17 @@ hexo d -g
 ``` bash
 git clone -b hexo https://github.com/HK560/hk560.github.io
 ```
-2.安装hexo依赖
+2.安装nodejs，设置好镜像站
+
+3.安装hexo
 ``` bash
-cnpm install
+npm install -g hexo-cli
+```
+
+4.安装hexo依赖
+cd到仓库根目录
+``` bash
+npm install
 ```
 只不过每次发文章的时候，要输入用户名和密码。
 
