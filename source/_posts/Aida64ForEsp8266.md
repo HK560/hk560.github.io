@@ -62,4 +62,12 @@ tags:
 - 如何播放动画?原理是将导入的图片按顺序播放出来,速度由FPS设置框决定。所以想要播放gif图片的话,需要将gif图分辨率设置为128x64,并将每帧图片切割出来按名字顺序排序,再在上位机程序里选择图片选择全部切割出来的帧图片即可。
 
 ----
+## 演示图
+### 上位机：
+<img src="https://cdn.jsdelivr.net/gh/HK560/MyPicHub@master/res/pic/20210922171958.png" alt="上位机" width="300" >
+
+### 下位机：
+<img src="https://cdn.jsdelivr.net/gh/HK560/MyPicHub@master/res/pic/esp8266show2.jpg" alt="示例2" width="300" align=center>
+<img src="https://cdn.jsdelivr.net/gh/HK560/MyPicHub@master/res/pic/esp8266Show1.jpg" alt="示例1" width="300"  align=center>
+
 - 页面建设中
