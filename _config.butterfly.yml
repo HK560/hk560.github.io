@@ -848,7 +848,7 @@ inject:
   - '<style type="text/css">#toggle-sidebar {bottom: 80px}</style>'
       # - <link rel="stylesheet" href="/xxx.css">
   bottom:
-  - <div class="aplayer no-destroy" data-id="6590103552" data-server="netease" data-type="playlist" data-fixed="true" data-mini="true" data-listfolded="false" data-order="random" data-preload="none" data-autoplay="false" muted="" data-volume="0.2"></div>
+  # - <div class="aplayer no-destroy" data-id="6590103552" data-server="netease" data-type="playlist" data-fixed="true" data-mini="true" data-listfolded="false" data-order="random" data-preload="none" data-autoplay="false" muted="" data-volume="0.2"></div>
   
     # - <script src="xxxx"></script>
 
