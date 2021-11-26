@@ -125,7 +125,7 @@ cover:
   index_enable: true
   aside_enable: true
   archives_enable: true
-  # the position of cover in home page (封面顯示的位置)
+  # the position of cover in home page (d封面顯示的位置)
   # left/right/both
   position: both
   # When cover is not set, the default cover is displayed (當沒有設置cover時，默認的封面顯示)
@@ -137,7 +137,14 @@ cover:
     - https://cdn.jsdelivr.net/gh/HK560/MyPicHub/res/pic/Avg_avg_7_1_压缩.jpg
     - https://cdn.jsdelivr.net/gh/HK560/MyPicHub/res/pic/Avg_avg_6_9_压缩.jpg
     - https://cdn.jsdelivr.net/gh/HK560/MyPicHub/res/pic/Avg_avg_5_8_sky_压缩.jpg
-    # - https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg
+    - https://cdn.jsdelivr.net/gh/HK560/MyPicHub@master/res/pic/Avg_bg_21_G8_cammunibase.png
+    - https://cdn.jsdelivr.net/gh/HK560/MyPicHub@master/res/pic/Avg_bg_abyss_1.png
+    - https://cdn.jsdelivr.net/gh/HK560/MyPicHub@master/res/pic/Avg_bg_bg_20_G03.png
+    - https://cdn.jsdelivr.net/gh/HK560/MyPicHub@master/res/pic/Avg_bg_bg_20_G10.png
+    - https://cdn.jsdelivr.net/gh/HK560/MyPicHub@master/res/pic/Avg_bg_bg_23_G06.png
+    - https://cdn.jsdelivr.net/gh/HK560/MyPicHub@master/res/pic/Avg_bg_bg_23_G08.png
+    - https://cdn.jsdelivr.net/gh/HK560/MyPicHub@master/res/pic/Avg_bg_bg_prison_commandroom.png
+
 
 # Replace Broken Images (替換無法顯示的圖片)
 error_img:
@@ -558,7 +565,7 @@ activate_power_mode:
   enable: true
   colorful: true # open particle animation (冒光特效)
   shake: false #  open shake (抖動特效)
-  mobile: false
+  mobile: true
 
 # Mouse click effects: fireworks (鼠標點擊效果: 煙火特效)
 fireworks:
@@ -573,18 +580,22 @@ click_heart:
 
 # Mouse click effects: words (鼠標點擊效果: 文字)
 ClickShowText:
-  enable: false
+  enable: true
   text:
+     - HK560
+     - elbadaernU
+    # - C++
+    # - QT
     # - I
     # - LOVE
     # - YOU
   fontSize: 15px
-  random: false
+  random: true
   mobile: false
 
 # Default display mode (網站默認的顯示模式)
 # light (default) / dark
-display_mode: light
+display_mode: dark
 
 # Beautify (美化頁面顯示)
 beautify:
@@ -845,7 +856,7 @@ css_prefix: true
 # 插入代码到头部 </head> 之前 和 底部 </body> 之前
 inject:
   head:
-  - '<style type="text/css">#toggle-sidebar {bottom: 80px}</style>'
+  # - '<style type="text/css">#toggle-sidebar {bottom: 80px}</style>'
       # - <link rel="stylesheet" href="/xxx.css">
   bottom:
   # - <div class="aplayer no-destroy" data-id="6590103552" data-server="netease" data-type="playlist" data-fixed="true" data-mini="true" data-listfolded="false" data-order="random" data-preload="none" data-autoplay="false" muted="" data-volume="0.2"></div>
