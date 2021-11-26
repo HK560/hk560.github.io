@@ -4,7 +4,7 @@
 # format: name: link || icon
 # sub-menu
 # name || icon:
-#   name || link || icon
+#   name: link || icon
 
 menu:
   # Home : / || fas fa-home
@@ -17,7 +17,7 @@ menu:
   链接: /link/ || fas fa-link
   说说: /shuoshuo/ || fab fa-stack-exchange
   关于: /about/ || fas fa-heart
-  
+
 
 # Hide the child menu items in mobile sidebar
 hide_sidebar_menu_child: false
@@ -29,6 +29,7 @@ highlight_theme: darker #  darker / pale night / light / ocean / mac / mac light
 highlight_copy: true # copy button
 highlight_lang: true # show the code language
 highlight_shrink: false # true: shrink the code blocks / false: expand the code blocks | none: expand code blocks and hide the button
+highlight_height_limit: false # unit: px
 code_word_wrap: false
 
 # copy settings
@@ -40,8 +41,8 @@ copy:
     limit_count: 50
 
 # social settings (社交圖標設置)
-#formal:
-# icon: https://cdn.jsdelivr.net/gh/HK560/MyPicHub/res/pic/500x500_p0.jpg || avatar
+# formal:
+#   icon: link || the description
 social:
   fab fa-github: https://github.com/hk560 || Github
   fas fa-envelope: mailto:lan2496846801@gmail.com || Email
@@ -56,7 +57,7 @@ algolia_search:
   hits:
     per_page: 6
 
-# Local search
+# Local search 需要安装  hexo-generator-search
 local_search:
   enable: true
 
@@ -146,7 +147,7 @@ error_img:
 # A simple 404 page
 error_404:
   enable: true
-  subtitle: 'oops 没有找到页面噢'
+  subtitle: 'oops404 没有找到页面噢'
   background: https://i.loli.net/2020/05/19/aKOcLiyPl2JQdFD.png
 
 post_meta:
@@ -163,7 +164,7 @@ post_meta:
     tags: true # true or false 文章頁是否顯示標籤
     label: true # true or false 顯示描述性文字
 
-# wordcount (字數統計)
+# wordcount (字數統計) 需要npm install hexo-wordcount --save
 wordcount:
   enable: true
   post_wordcount: true
@@ -270,7 +271,7 @@ comments:
   # Up to two comments system, the first will be shown as default
   # Choose: Disqus/Disqusjs/Livere/Gitalk/Valine/Waline/Utterances/Facebook Comments/Twikoo
   use:
-   - Valine
+    - Valine
   # - Disqus
   text: true # Display the comment name next to the button
   # lazyload: The comment system will be load when comment element enters the browser's viewport.
@@ -283,6 +284,7 @@ comments:
 # https://disqus.com/
 disqus:
   shortname:
+  apikey: # For newest comments widget
 
 # Alternative Disqus - Render comments with Disqus API
 # DisqusJS 評論系統，可以實現在網路審查地區載入 Disqus 評論列表，兼容原版
@@ -314,32 +316,35 @@ gitalk:
   distractionFreeMode: false # Facebook-like distraction free mode.
   pagerDirection: last # Comment sorting direction, available values are last and first.
   createIssueManually: false # Gitalk will create a corresponding github issue for your every single page automatically
+  option:
 
 # valine
 # https://valine.js.org
 valine:
-  appId: sSJWLNIHAhDXaQBJTivmUcbs-MdYXbMMI
-  appKey: 3VPr2wu3AXfAdQOzuHo9HoV5
+  appId: YUxPrUWdqW1073YnrUKvLGFd-gzGzoHsz
+  appKey: nQKKGTSqQW1k8Kus9J3RKonH
   pageSize: 10 # comment list page size
   avatar: monsterid # gravatar style https://valine.js.org/#/avatar
   lang: zh-CN # i18n: zh-CN/zh-TW/en/ja
-  placeholder: 可以在这里发表评论唔... # valine comment input placeholder (like: Please leave your footprints)
+  placeholder: 这里可以评论唔... # valine comment input placeholder (like: Please leave your footprints)
   guest_info: nick,mail,link # valine comment header info (nick/mail/link)
   recordIP: false # Record reviewer IP
   serverURLs: # This configuration is suitable for domestic custom domain name users, overseas version will be automatically detected (no need to manually fill in)
   bg: # valine background
-  emojiCDN: 
+  emojiCDN: # emoji CDN
   enableQQ: false # enable the Nickname box to automatically get QQ Nickname and QQ Avatar
   requiredFields: nick,mail # required fields (nick/mail)
-  option: 
+  visitor: false
+  option:
 
 # waline - A simple comment system with backend support fork from Valine
 # https://waline.js.org/
 waline:
   serverURL: # Waline server address url
   avatar: monsterid # gravatar style https://zh-tw.gravatar.com/site/implement/images/#default-image
-  emojiCDN: # emoji CDN
-  bg: /image/comment_bg.png # waline background
+  avatarCDN: # Gravatar CDN baseURL
+  bg: # waline background
+  visitor: false
   option:
 
 # utterances
@@ -366,6 +371,7 @@ facebook_comments:
 twikoo:
   envId:
   region:
+  visitor: false
   option:
 
 # Chat Services
@@ -413,7 +419,7 @@ crisp:
 footer:
   owner:
     enable: true
-    since: 2021
+    since: 2020
   custom_text: Great ideals but through selfless struggle and sacrifice to achieve.
   copyright: true # Copyright of theme and framework
 
@@ -464,25 +470,11 @@ google_adsense:
 # Verification (站長驗證)
 # --------------------------------------
 
-# Google Webmaster tools verification setting
-# See: https://www.google.com/webmasters/
-google_site_verification:
-
-# Bing Webmaster tools verification setting
-# See: https://www.bing.com/webmaster/
-bing_site_verification:
-
-# Baidu Webmaster tools verification setting
-# See: https://ziyuan.baidu.com/site/
-baidu_site_verification:
-
-# 360 Webmaster tools verification setting
-# see http://zhanzhang.so.com/
-qihu_site_verification:
-
-# Yandex Webmaster tools verification setting
-# see https://webmaster.yandex.com/
-yandex_site_verification:
+site_verification:
+  # - name: google-site-verification
+  #   content: xxxxxx
+  # - name: baidu-site-verification
+  #   content: xxxxxxx
 
 # Beautify/Effect (美化/效果)
 # --------------------------------------
@@ -641,7 +633,7 @@ subtitle:
   # 開頭不允許轉義字元，如需要，請把整個句子用雙引號包住
   # 如果關閉打字效果，subtitle只會顯示sub的第一行文字
   sub:
-    - 與光同塵
+        - 與光同塵
 
 # Loading Animation (加載動畫)
 preloader: true
@@ -659,7 +651,7 @@ aside:
     enable: true
     description:
     button:
-      enable: false
+      enable: true
       icon: fab fa-github
       text: Follow Me
       link: https://github.com/hk560
@@ -714,17 +706,6 @@ newest_comments:
   limit: 6
   storage: 10 # unit: mins, save data to localStorage
   avatar: true
-  # You can only choose one, or neither
-  valine: false
-  github_issues:
-    enable: false
-    repo:
-  disqus:
-    enable: false
-    forum:
-    api_key:
-  twikoo: false
-  waline: false
 
 # Bottom right button (右下角按鈕)
 # --------------------------------------
@@ -776,7 +757,7 @@ fancybox: true
 # --------------------------------------
 
 # mermaid
-# see https://github.com/knsv/mermaid
+# see https://github.com/mermaid-js/mermaid
 mermaid:
   enable: false
   # built-in themes: default/forest/dark/neutral
@@ -799,17 +780,7 @@ note:
 # other
 # --------------------------------------
 
-# Artitalk
-# see https://artitalk.js.org/
-artitalk:
-  appId: gaFzIL8Ofl0ltwl32qrqnf5C-MdYXbMMI
-  appKey: Hze32HHf82gvAw8761KFD2vP
-  option:
-    lang: zh
-    color1: slategray
-    color2: slategray
-
-# Pjax [Beta]
+# Pjax
 # It may contain bugs and unstable, give feedback when you find the bugs.
 # https://github.com/MoOx/pjax
 pjax:
@@ -844,21 +815,23 @@ pangu:
   field: site # site/post
 
 # Lazyload (圖片懶加載)
-# https://github.com/verlok/lazyload
+# https://github.com/verlok/vanilla-lazyload
 lazyload:
-  enable: true
-  post: /img/loading.gif
+  enable: false
+  field: site # site/post
+  placeholder:
+  blur: false
 
 # PWA
 # See https://github.com/JLHwung/hexo-offline
 # ---------------
 # pwa:
 #   enable: false
-#   manifest: /image/pwa/manifest.json
-#   apple_touch_icon: /image/pwa/apple-touch-icon.png
-#   favicon_32_32: /image/pwa/32.png
-#   favicon_16_16: /image/pwa/16.png
-#   mask_icon: /image/pwa/safari-pinned-tab.svg
+#   manifest: /pwa/manifest.json
+#   apple_touch_icon: /pwa/apple-touch-icon.png
+#   favicon_32_32: /pwa/32.png
+#   favicon_16_16: /pwa/16.png
+#   mask_icon: /pwa/safari-pinned-tab.svg
 
 # Open graph meta tags
 # https://developers.facebook.com/docs/sharing/webmasters/
@@ -872,10 +845,11 @@ css_prefix: true
 # 插入代码到头部 </head> 之前 和 底部 </body> 之前
 inject:
   head:
-    - '<style type="text/css">#toggle-sidebar {bottom: 80px}</style>'
-    # - <link rel="stylesheet" href="/xxx.css">
+  - '<style type="text/css">#toggle-sidebar {bottom: 80px}</style>'
+      # - <link rel="stylesheet" href="/xxx.css">
   bottom:
-    - <div class="aplayer no-destroy" data-id="6590103552" data-server="netease" data-type="playlist" data-fixed="true" data-mini="true" data-listfolded="false" data-order="random" data-preload="none" data-autoplay="false" muted="" data-volume="0.2"></div>
+  - <div class="aplayer no-destroy" data-id="6590103552" data-server="netease" data-type="playlist" data-fixed="true" data-mini="true" data-listfolded="false" data-order="random" data-preload="none" data-autoplay="false" muted="" data-volume="0.2"></div>
+  
     # - <script src="xxxx"></script>
 
 # CDN
@@ -915,8 +889,8 @@ CDN:
   # math
   mathjax: https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
   katex: https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css
-  katex_copytex: https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js
-  katex_copytex_css: https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css
+  katex_copytex: https://cdn.jsdelivr.net/npm/katex@latest/dist/contrib/copy-tex.min.js
+  katex_copytex_css: https://cdn.jsdelivr.net/npm/katex@latest/dist/contrib/copy-tex.css
   mermaid: https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js
 
   # count
@@ -966,5 +940,3 @@ CDN:
   prismjs_js: https://cdn.jsdelivr.net/npm/prismjs/prism.min.js
   prismjs_lineNumber_js: https://cdn.jsdelivr.net/npm/prismjs/plugins/line-numbers/prism-line-numbers.min.js
   prismjs_autoloader: https://cdn.jsdelivr.net/npm/prismjs/plugins/autoloader/prism-autoloader.min.js
-
-  artitalk: https://cdn.jsdelivr.net/npm/artitalk
