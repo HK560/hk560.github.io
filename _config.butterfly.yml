@@ -15,7 +15,7 @@ menu:
    #  - Music || /music/ || fas fa-music
    #  - Movie || /movies/ || fas fa-video
   链接: /link/ || fas fa-link
-  说说: /shuoshuo/ || fab fa-stack-exchange
+  # 说说: /shuoshuo/ || fab fa-stack-exchange
   关于: /about/ || fas fa-heart
 
 
@@ -29,7 +29,7 @@ highlight_theme: darker #  darker / pale night / light / ocean / mac / mac light
 highlight_copy: true # copy button
 highlight_lang: true # show the code language
 highlight_shrink: false # true: shrink the code blocks / false: expand the code blocks | none: expand code blocks and hide the button
-highlight_height_limit: false # unit: px
+highlight_height_limit: 200 # unit: px
 code_word_wrap: false
 
 # copy settings
@@ -216,10 +216,10 @@ reward:
 # Post edit
 # Easily browse and edit blog source code online.
 post_edit:
-  enable: false
+  enable: true
   # url: https://github.com/user-name/repo-name/edit/branch-name/subdirectory-name/
   # For example: https://github.com/jerryc127/butterfly.js.org/edit/main/source/
-  url:
+  url: https://github.com/HK560/hk560.github.io/tree/hexo/source/ 
 
 # Related Articles
 related_post:
