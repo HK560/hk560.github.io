@@ -21,7 +21,11 @@ tags:
 ![下载设定集](https://cdn.jsdelivr.net/gh/HK560/MyPicHub@master/res/pic/20211127204151.png)
 ![下载OST](https://cdn.jsdelivr.net/gh/HK560/MyPicHub@master/res/pic/20211127204646.png)
 
-应该是只有终极版玩家才能领取？
+应该是只有终极版玩家才能领取？不过我下面附上了能直接下载的官方链接
+# 直接下载链接
+- [直链下载设定集](https://media.contentapi.ea.com/content/dam/battlefield/battlefield-2042/digital-assets/common/210709-kingston-book-4k-final-english.pdf)
+- [直链下载OST](https://media.contentapi.ea.com/content/dam/battlefield/battlefield-2042/digital-assets/battlefield-2042-exclusive-digital-soundtrack.zip)
+
 
 ----
 希望2042慢慢完善，对得起大家的期待

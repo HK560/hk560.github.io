@@ -227,8 +227,213 @@ double GA::getPathLength(QVector<int>path, int num)
 
 >遗传算法中的锦标赛选择策略每次从种群中取出一定数量个体（放回抽样），然后选择其中最好的一个进入子代种群。重复该操作，直到新的种群规模达到原来的种群规模。几元锦标赛就是一次性在总体中取出几个个体，然后在这些个体中取出最优的个体放入保留到下一代种群的集合中。
 
-这里我们采用二元锦标赛，每次选出两个（放回）进行比较
+这里我们采用二元锦标赛，每次选出两个（放回）进行比较路径长度大小,将较小的的路径加入到新交配池子
 直接看代码实现
+```C++
+void GA::tournament( int size,int num)//锦标赛选择新交配池
+{
+    qDebug()<<"tournament";
+    Q_ASSERT(size>0);
+    QVector<QVector<int>> *newpool=new QVector<QVector<int>>;//新池子
+    int time=size;
+    while(time--){
+        int index_1=QRandomGenerator::system()->bounded(size);//随机数作为下标
+        int index_2=QRandomGenerator::system()->bounded(size);
+        //比较路径长度
+        if(getPathLength(this->pool->at(index_1),num)<getPathLength(this->pool->at(index_2),num)){
+            newpool->append(this->pool->at(index_1));//将该路径加入到新池子
+        }else{
+            newpool->append(this->pool->at(index_2));
+        }
+    }
+    delete this->pool;
+    this->pool=newpool;
+    debugPool();
+}
+```
+### 4.进行交配和变异
+>c)从交配池中随机选择出两个个体,根据交配概率PC交配
+d)如果交配则交配后按照变异概率PM进行变异,不交配直接放入新种群
+
+这一步我们需要随机选出两个个体,根据交配概率PC判断是否进行交配,如果不交配,那我们直接将这两个个体放入新种群(交配池)即可;如果交配,则要进行交配策略，进行交配策略之后还要根据变异概率PM是否进行变异
+
+遗传算法中如何进行交配呢? 常用的策略方法有一点交叉和两点交叉
+>交叉的步骤如下：
+1.从交配池中随机选出两个个体作为需要交叉的个体
+2.根据个体基因长度SIZE，随机生成一个或多个范围在[0,size-1]的整数下标点作为交叉点
+3.交换两个个体由交叉点指定的基因范围部分‘
+
+一点交叉：
+就是只选择一个交叉点进行交换
+![](https://cdn.jsdelivr.net/gh/HK560/MyPicHub@master/res/pic/20211128193901.png)
+两点交叉：
+两个交叉点，将两个交叉点之间的基因部分交换
+![](https://cdn.jsdelivr.net/gh/HK560/MyPicHub@master/res/pic/20211128194004.png)
+要注意的是，交换后会出现部分基因重复，也就是地点重复，这是不允许的，所以我们要去掉重复地点
+方法很简单，分别找到两个个体中重复的部分，然后互相交换即可。
+
+然后再说说变异，变异在tsp问题中我们用一种简单的方法进行处理：随机交换一个个体中两个基因的位置。
+也就是随机选取两个地点交换在路径中的位置
+例如：1->2->3->4
+可以变异为 1->4->3->2(交换了2和4的位置)
+
+理解后我们就可以写代码了：
+
+```C++
+//获得两个符合规则的交叉点
+void GA::getRandomSwitchPoint(int &p1,int &p2,int num)
+{
+    //Q_ASSERT(p1>=0&&p2>=0);
+    int tmp1,tmp2;
+    do{
+        tmp1=QRandomGenerator::system()->bounded(num);
+        tmp2=QRandomGenerator::system()->bounded(num);
+    }while(tmp1>=tmp2&&!((tmp2-tmp1)>=2));
+    p1=tmp1;
+    p2=tmp2;
+}
+//去除重复
+void GA::removeDuplicates(QVector<int> &path_1, QVector<int> &path_2)
+{
+    qDebug()<<"removeDuplicates";
+    //找出第一个个体的重复基因
+    QVector<int> duplicates_1;
+    for(auto i=path_1.begin();i!=path_1.end();i++){
+        if(path_1.count(*i)>1){
+            if(duplicates_1.contains(*i)==false)
+                duplicates_1.append(*i);
+        }
+    }
+    //找出第二个个体的重复基因
+    QVector<int> duplicates_2;
+    for(auto i=path_2.begin();i!=path_2.end();i++){
+        if(path_2.count(*i)>1){
+            if(duplicates_2.contains(*i)==false)
+                duplicates_2.append(*i);
+        }
+    }
+    //交换重复的基因
+    if(duplicates_1.size()>0){
+        debugPath(duplicates_1);
+        debugPath(duplicates_2);
+        Q_ASSERT(duplicates_1.size()==duplicates_2.size());
+        for(int i=0;i<duplicates_1.size();i++){
+            int tmp= path_1[path_1.indexOf(duplicates_1[i])];
+            path_1[path_1.indexOf(duplicates_1[i])]=duplicates_2[i];
+            path_2[path_2.indexOf(duplicates_2[i])]=tmp;
+
+        }
+        debugPath(path_1);
+        debugPath(path_2);
+    }
+}
+//二点交叉
+void GA::crossover(int size,int num,double pc,double pm)
+{
+    Q_ASSERT(this->pool->size()>0);
+    Q_ASSERT(size>0&&num>0);
+    Q_ASSERT(pc>=0&&pc<=1);
+    QVector<QVector<int>>* newPool=new  QVector<QVector<int>>;//新池子
+    int time=size;
+    while (time--) {
+        //随机取出两个路径个体
+        int rand_1=QRandomGenerator::system()->bounded(size);
+        int rand_2=QRandomGenerator::system()->bounded(size);
+        QVector<int> tmpPath_1=this->pool->at(rand_1);
+        QVector<int> tmpPath_2=this->pool->at(rand_2);
+        debugPath(tmpPath_1);
+        debugPath(tmpPath_2);
+        //生成一个0~1.0的随机数,如果大于给定的PC值则不交配,否则交配
+        double randPC=double(QRandomGenerator::system()->bounded(1.0));
+        qDebug()<<"randpc:"<<randPC;
+        Q_ASSERT(randPC<1&&rand()>=0);
+        if(randPC>pc){
+            qDebug()<<"不交配";
+            newPool->append(tmpPath_1);
+            newPool->append(tmpPath_2);
+        }else{
+            qDebug()<<"交配";
+            int crossPos_1,crossPos_2;
+            //获得交叉点
+            getRandomSwitchPoint(crossPos_1,crossPos_2,size);
+            Q_ASSERT(crossPos_2>crossPos_1);
+           // QVector<int> tmpp;
+            //交换
+            for(int i=crossPos_1;i<crossPos_2;i++){
+                int tmppp=tmpPath_1[i];
+                tmpPath_1[i]=tmpPath_2[i];
+                tmpPath_2[i]=tmppp;
+            }
+            debugPath(tmpPath_1);
+            debugPath(tmpPath_2);
+            //去除重复
+            removeDuplicates(tmpPath_1,tmpPath_2);
+            double randPM=double(QRandomGenerator::system()->bounded(1.0));
+            if(randPM<pm){
+                qDebug()<<"mutations";
+                mutations(tmpPath_1,num);
+                mutations(tmpPath_2,num);
+                debugPath(tmpPath_1);
+                debugPath(tmpPath_2);
+            }
+            newPool->append(tmpPath_1);
+            newPool->append(tmpPath_2);
+        }
+    }
+    delete pool;
+    pool=newPool;
+
+}
+//变异
+inline void GA::mutations(QVector<int> &path,int num)
+{
+    int randIndex_1=QRandomGenerator::system()->bounded(num);
+    int randIndex_2=QRandomGenerator::system()->bounded(num);
+    if(randIndex_1!=randIndex_2){
+        int tmp=path[randIndex_1];
+        path[randIndex_1]=path[randIndex_2];
+        path[randIndex_2]=tmp;
+    }
+
+}
+```
+
+这样遗传算法对于TSP问的的实现就基本写好了
+接下来我们设计个可视化界面，方便我们查看遗传算法不同参数对于结果的影响
+
+## 三 设计可视化界面
+
+目标：
+1.可以设定PM概率，PC概率，种群大小和迭代次数
+2.结果用折线图显示，方便查看
+
+### 1.设计.ui文件
+
+简单设计一下即可，留出给设置变量的lineEdit组件，下面是我设计的界面
+![主界面](https://cdn.jsdelivr.net/gh/HK560/MyPicHub@master/res/pic/20211128205510.png)
+
+在文本框输入参数值，点击执行结果按钮计算结果，能够将结果中的最短路径长度和路径显示出来，也能显示耗时
+
+### 2.实现显示折线图
+
+QT中有提供实现相关视图的类，要实现折线图需要用到下面几个头文件：
+```C++
+#include <QLineSeries>
+#include <QValueAxis>
+#include <QChartView>
+#include <QChart>
+```
+在这里不对使用的类做过多介绍，可以自行查看QT官方文档，大概用法如下
+```C++
+QLineSeries *series = new QLineSeries()//QLineSeries类能在图表中中显示数据
+series->append(X,Y);//将坐标为（X，Y）的点添加到QLineSeries中
+QChart *chart = new QChart();//QChart 类管理图数据、图例和轴的图形表示
+```
+
+
+
+
+
 
 -----
 编写中
