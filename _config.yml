@@ -13,7 +13,7 @@ timezone: ''
 
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
-url: http://blog.hk560.top/
+url: https://blog.hk560.top/
 permalink:  :title/
 permalink_defaults:
 pretty_urls:
@@ -47,7 +47,7 @@ highlight:
   enable: true
   line_number: true
   auto_detect: false
-  tab_replace: ''he
+  tab_replace: ''
   wrap: true
   hljs: false
 prismjs:
@@ -130,3 +130,13 @@ live2d:
     show: true
   react:
     opacity: 1
+
+encrypt: # hexo-blog-encrypt
+  abstract: oops，这里被加密了，需要密码才能继续查看
+  message: 在这里输入密码
+  theme: blink
+  tags:
+  - {name: 加密, password: 023168}
+  - {name: GF, password: 20210518}
+  wrong_pass_message: 密码不对！
+  wrong_hash_message: 抱歉, 这个文章不能被校验, 不过您还是能看看解密后的内容.
