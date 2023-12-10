@@ -1,0 +1,379 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="dark"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>机器学习实验朴素贝叶斯逻辑回归处理adult数据集(附代码) | elbadaernU</title><meta name="keywords" content="学习,机器学习,python"><meta name="author" content="HK560"><meta name="copyright" content="HK560"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#0d0d0d"><meta name="description" content="放在最前面 题目来自广州大学机器学习实验 本文以解决数据集处理问题为最高目标，不会对涉及到的知识过多介绍，会写出问题解决思路方式实验题目 基于Adult数据集，完成关于收入是否大于50K的逻辑回归分类、朴素贝叶斯模型训练、测试与评估。   1 准备数据集并认识数据  下载Adult数据集  http:&#x2F;&#x2F;archive.ics.uci.edu&#x2F;ml&#x2F;datasets&#x2F;Adult  了解数据集各个维">
+<meta property="og:type" content="article">
+<meta property="og:title" content="机器学习实验朴素贝叶斯逻辑回归处理adult数据集(附代码)">
+<meta property="og:url" content="https://blog.hk560.top/MachineLearningExperimentNaiveBayesianLogisticRegressionProcessingadultDataset/index.html">
+<meta property="og:site_name" content="elbadaernU">
+<meta property="og:description" content="放在最前面 题目来自广州大学机器学习实验 本文以解决数据集处理问题为最高目标，不会对涉及到的知识过多介绍，会写出问题解决思路方式实验题目 基于Adult数据集，完成关于收入是否大于50K的逻辑回归分类、朴素贝叶斯模型训练、测试与评估。   1 准备数据集并认识数据  下载Adult数据集  http:&#x2F;&#x2F;archive.ics.uci.edu&#x2F;ml&#x2F;datasets&#x2F;Adult  了解数据集各个维">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/HK560/MyPicHub@master/res/pic/Avg_bg_bg_20_G03.png">
+<meta property="article:published_time" content="2021-11-26T01:34:24.000Z">
+<meta property="article:modified_time" content="2023-12-10T03:29:25.068Z">
+<meta property="article:author" content="HK560">
+<meta property="article:tag" content="学习">
+<meta property="article:tag" content="机器学习">
+<meta property="article:tag" content="python">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/HK560/MyPicHub@master/res/pic/Avg_bg_bg_20_G03.png"><link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/HK560/MyPicHub/res/pic/blogLogo.jpg"><link rel="canonical" href="https://blog.hk560.top/MachineLearningExperimentNaiveBayesianLogisticRegressionProcessingadultDataset/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Saira+Semi+Condensed:wght@100&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#121212","position":"top-center"},
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isanchor: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '机器学习实验朴素贝叶斯逻辑回归处理adult数据集(附代码)',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-12-10 11:29:25'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+          const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+          const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+          const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+          if (t === undefined) {
+            if (isLightMode) activateLightMode()
+            else if (isDarkMode) activateDarkMode()
+            else if (isNotSpecified || hasNoSupport) {
+              const now = new Date()
+              const hour = now.getHours()
+              const isNight = hour <= 6 || hour >= 18
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if (GLOBAL_CONFIG_SITE.isHome && /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    document.addEventListener('pjax:complete', detectApple)})(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://cdn.jsdelivr.net/gh/HK560/MyPicHub@master/res/pic/hurAvatar_new.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">22</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">18</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 链接</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-heart"></i><span> 关于</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于本站</span></a></li><li><a class="site-page child" href="/about/HK560/"><i class="fa-fw fas fa-heart"></i><span> ？？？</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/gh/HK560/MyPicHub@master/res/pic/Avg_bg_bg_20_G03.png')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">elbadaernU</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 链接</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-heart"></i><span> 关于</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于本站</span></a></li><li><a class="site-page child" href="/about/HK560/"><i class="fa-fw fas fa-heart"></i><span> ？？？</span></a></li></ul></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">机器学习实验朴素贝叶斯逻辑回归处理adult数据集(附代码)<a class="post-edit-link" href="https://github.com/HK560/hk560.github.io/tree/hexo/source/_posts/MachineLearningExperimentNaiveBayesianLogisticRegressionProcessingadultDataset.md" title="编辑" target="_blank"><i class="fas fa-pencil-alt"></i></a></h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-11-26T01:34:24.000Z" title="发表于 2021-11-26 09:34:24">2021-11-26</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-12-10T03:29:25.068Z" title="更新于 2023-12-10 11:29:25">2023-12-10</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E4%B8%93%E4%B8%9A%E5%AD%A6%E4%B9%A0%E5%AE%9E%E9%AA%8C/">专业学习实验</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1.8k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>7分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="机器学习实验朴素贝叶斯逻辑回归处理adult数据集(附代码)"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="放在最前面"><a href="#放在最前面" class="headerlink" title="放在最前面"></a>放在最前面</h1><ul>
+<li>题目来自广州大学机器学习实验</li>
+<li>本文以解决数据集处理问题为最高目标，不会对涉及到的知识过多介绍，会写出问题解决思路方式<h1 id="实验题目"><a href="#实验题目" class="headerlink" title="实验题目"></a>实验题目</h1><blockquote>
+<p>基于Adult数据集，完成关于收入是否大于50K的逻辑回归分类、朴素贝叶斯模型训练、测试与评估。</p>
+</blockquote>
+</li>
+<li>1 准备数据集并认识数据<br>  下载Adult数据集<br>  <a target="_blank" rel="noopener" href="http://archive.ics.uci.edu/ml/datasets/Adult">http://archive.ics.uci.edu/ml/datasets/Adult</a><br>  了解数据集各个维度特征及预测值的含义</li>
+<li>2 探索数据并预处理数据<br>  观察数据集各个维度特征及预测值的数值类型与分布<br>  预处理各维度特征</li>
+<li>3 训练模型<br>  编程实现训练数据集上逻辑回归模型的梯度下降参数求解、朴素贝叶斯参数统计</li>
+<li>4 测试和评估模型<br>   在测试数据集上计算所训练模型的准确率、AUC等指标</li>
+</ul>
+<h1 id="实验内容及步骤"><a href="#实验内容及步骤" class="headerlink" title="实验内容及步骤"></a>实验内容及步骤</h1><h2 id="数据集下载处理"><a href="#数据集下载处理" class="headerlink" title="数据集下载处理"></a>数据集下载处理</h2><pre><code>http://archive.ics.uci.edu/ml/datasets/Adult
+</code></pre>
+<p>下载后用excel打开文件，发现没有index没有列名，只好手动处理添加一下，处理好的文件我会放在源码文件夹里。<br><img src="https://cdn.jsdelivr.net/gh/HK560/MyPicHub@master/res/pic/20211126101609.png"></p>
+<p>使用pandas读取文件,简单处理一下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 读取数据,预处理</span></span><br><span class="line">df = pd.read_csv(<span class="string">&#x27;adult.csv&#x27;</span>) </span><br><span class="line"><span class="comment">#去掉含有nan的行</span></span><br><span class="line">df=df.dropna(axis=<span class="number">0</span>,how=<span class="string">&#x27;any&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p>观察数据发现,有些地方有缺省值,用”?”表示,我们需要去掉这些含有问号的行</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#预处理，去掉缺省属性的行</span></span><br><span class="line">df=df[~df[<span class="string">&#x27;workclass&#x27;</span>].isin([<span class="string">&quot;?&quot;</span>])]</span><br><span class="line">df=df[~df[<span class="string">&#x27;native-country&#x27;</span>].isin([<span class="string">&quot;?&quot;</span>])]</span><br><span class="line">df=df[~df[<span class="string">&#x27;occupation&#x27;</span>].isin([<span class="string">&quot;?&quot;</span>])]</span><br></pre></td></tr></table></figure>
+<p>因为是要分类收入大于50K和小于等于50K的,我们直接处理一下,将大于50k的设为1,小于等于50k的设为0,放在新的一个列,列名target</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#将结果转为二分类值为0 1方便后续处理。重命名为target列</span></span><br><span class="line">df.loc[df[<span class="string">&#x27;income&#x27;</span>] == <span class="string">&quot;&gt;50K&quot;</span>,<span class="string">&quot;target&quot;</span>] = <span class="number">1</span></span><br><span class="line">df.loc[df[<span class="string">&#x27;income&#x27;</span>] != <span class="string">&quot;&gt;50K&quot;</span>,<span class="string">&quot;target&quot;</span>] = <span class="number">0</span></span><br><span class="line">df.drop([<span class="string">&#x27;income&#x27;</span>], axis=<span class="number">1</span> ,inplace=<span class="literal">True</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="1-逻辑回归分类"><a href="#1-逻辑回归分类" class="headerlink" title="1.逻辑回归分类"></a>1.逻辑回归分类</h3><p>继续往下面看前建议先执行了解一下逻辑回归是什么东西,这里不再细说展开,直接写代码</p>
+<p>预处理完之后,与朴素贝叶斯不同<br>我们还需要将离散型特征和连续性特征筛选出来,进行处理</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#选出离散型特征</span></span><br><span class="line">cat_columns = [<span class="string">&#x27;workclass&#x27;</span>, <span class="string">&#x27;education&#x27;</span>, <span class="string">&#x27;marital-status&#x27;</span>, <span class="string">&#x27;occupation&#x27;</span>, <span class="string">&#x27;relationship&#x27;</span>, <span class="string">&#x27;race&#x27;</span>, </span><br><span class="line">               <span class="string">&#x27;gender&#x27;</span>,<span class="string">&#x27;native-country&#x27;</span>]</span><br><span class="line"><span class="comment">#连续性特征</span></span><br><span class="line">num_columns = [<span class="string">&#x27;age&#x27;</span>,<span class="string">&#x27;fnlwgt&#x27;</span>,<span class="string">&#x27;educational-num&#x27;</span>,<span class="string">&#x27;capital-gain&#x27;</span>, <span class="string">&#x27;capital-loss&#x27;</span>, <span class="string">&#x27;hours-per-week&#x27;</span>]</span><br><span class="line"><span class="comment">#目标特征</span></span><br><span class="line">target_column = <span class="string">&quot;target&quot;</span></span><br><span class="line"><span class="comment">#对离散型特征独热编码</span></span><br><span class="line">encoded_df = pd.get_dummies(df,columns=cat_columns)</span><br><span class="line"></span><br><span class="line"><span class="comment">#特征值</span></span><br><span class="line">df_x = encoded_df.drop(columns=<span class="string">&quot;target&quot;</span>)</span><br><span class="line"><span class="comment">#目标值</span></span><br><span class="line">df_y = encoded_df[<span class="string">&quot;target&quot;</span>].values</span><br></pre></td></tr></table></figure>
+<p>然后把连续型特征的值归一化</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#将连续型特征值归一化</span></span><br><span class="line">num_mean = df_x[num_columns].mean()</span><br><span class="line">num_std = df_x[num_columns].std()</span><br><span class="line">num_normol = (df_x[num_columns] - num_mean)/num_std</span><br><span class="line">df_x.drop(columns=num_columns,inplace=<span class="literal">True</span>)</span><br><span class="line">df_x = pd.concat([df_x,num_normol],axis=<span class="number">1</span>).values   </span><br></pre></td></tr></table></figure>
+<p>然后就可以划分训练集和测试集了,使用sklearn的库划分</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#划分训练集测试集</span></span><br><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> StratifiedShuffleSplit</span><br><span class="line">sss = StratifiedShuffleSplit(n_splits=<span class="number">2</span>,train_size=<span class="number">0.7</span>)</span><br><span class="line"><span class="keyword">for</span> train_index,test_index <span class="keyword">in</span> sss.split(df_x,df_y):</span><br><span class="line">    trainx,testx = df_x[train_index],df_x[test_index]</span><br><span class="line">    trainy,testy = df_y[train_index],df_y[test_index]</span><br></pre></td></tr></table></figure>
+<p>接下来我们就要着手实现逻辑回归了,不了解逻辑回归的强烈建议先执行学习一下</p>
+<p>实现sigmoid函数</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#sigmoid函数</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">sigmoid</span>(<span class="params">x</span>):</span></span><br><span class="line">  <span class="keyword">return</span> <span class="number">1</span> / (<span class="number">1</span> + np.exp(-x))</span><br></pre></td></tr></table></figure>
+<p>梯度下降法的逻辑回归实现</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">X=trainx</span><br><span class="line">Y=np.reshape(trainy, (-<span class="number">1</span>, <span class="number">1</span>))</span><br><span class="line">X_test=testx</span><br><span class="line">Y_test=np.reshape(testy, (-<span class="number">1</span>, <span class="number">1</span>))</span><br><span class="line"><span class="comment"># print(X.shape)</span></span><br><span class="line"><span class="comment"># print (Y.shape)</span></span><br><span class="line"></span><br><span class="line">theta=np.zeros(shape=[<span class="number">1</span>,X.shape[<span class="number">1</span>]])</span><br><span class="line">b=<span class="number">0</span></span><br><span class="line"><span class="comment">#设置学习速率</span></span><br><span class="line">alpha= <span class="number">0.001</span></span><br><span class="line"><span class="comment">#学习次数</span></span><br><span class="line">learning_count =<span class="number">1000</span></span><br><span class="line">theta = np.zeros(shape=[<span class="number">1</span>, X.shape[<span class="number">1</span>]])</span><br><span class="line">theta = theta.T</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(learning_count):</span><br><span class="line">    pre = np.dot(X, theta)</span><br><span class="line">    w = <span class="number">1</span> / (<span class="number">1</span> + np.exp(-pre))  </span><br><span class="line">    h = np.dot(X.T, (Y - w))  </span><br><span class="line">    h = h / <span class="built_in">len</span>(h)</span><br><span class="line">    lost = -(np.dot(Y.T, np.log(w)) + np.dot((<span class="number">1</span> - Y).T, np.log(<span class="number">1</span> - w))) / <span class="built_in">len</span>(Y)</span><br><span class="line">    theta = theta + alpha * h</span><br><span class="line">    <span class="keyword">if</span> i%<span class="number">10000</span>==<span class="number">0</span>:</span><br><span class="line">      <span class="built_in">print</span> (<span class="string">&#x27;梯度下降中...&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">y_pre= np.dot(X_test,theta)+b</span><br><span class="line">y_preSigmd=sigmoid(y_pre)</span><br></pre></td></tr></table></figure>
+<p>这样求出的预测值并不能直接和测试值比较,我们以0.5划分是0是1</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">y_preSigmd= np.where(y_preSigmd&gt;<span class="number">0.5</span>,<span class="number">1</span>,<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+<p>好这样y_preSigmod里就是我们根据测试集预测出来的值</p>
+<p>计算一下准确率</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> accuracy_score</span><br><span class="line">print(<span class="string">&quot;准确率：&quot;</span>,accuracy_score(y_preSigmd, Y_test))</span><br></pre></td></tr></table></figure>
+<p>AUC值:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> roc_auc_score</span><br><span class="line">auc_score = roc_auc_score(Y_test,y_preSigmd)</span><br><span class="line">print(<span class="string">&quot;AUC值:&quot;</span>,auc_score)</span><br></pre></td></tr></table></figure>
+<h3 id="2-朴树贝叶斯分类"><a href="#2-朴树贝叶斯分类" class="headerlink" title="2.朴树贝叶斯分类"></a>2.朴树贝叶斯分类</h3><p>预处理完之后,与逻辑回归不同,我们需要着重处理连续型特征,将其划分为几个区间特征</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#将连续型特征划分区间</span></span><br><span class="line">df[<span class="string">&#x27;age&#x27;</span>]=pd.cut(df[<span class="string">&#x27;age&#x27;</span>],bins=<span class="number">10</span>,right=<span class="literal">True</span>)</span><br><span class="line">df[<span class="string">&#x27;capital-gain&#x27;</span>]=pd.cut(df[<span class="string">&#x27;capital-gain&#x27;</span>],bins=<span class="number">3</span>,right=<span class="literal">True</span>)</span><br><span class="line">df[<span class="string">&#x27;capital-loss&#x27;</span>]=pd.cut(df[<span class="string">&#x27;capital-loss&#x27;</span>],bins=<span class="number">3</span>,right=<span class="literal">True</span>)</span><br><span class="line">df[<span class="string">&#x27;hours-per-week&#x27;</span>]=pd.cut(df[<span class="string">&#x27;hours-per-week&#x27;</span>],bins=<span class="number">20</span>,right=<span class="literal">True</span>)</span><br><span class="line">df[<span class="string">&#x27;fnlwgt&#x27;</span>]=pd.cut(df[<span class="string">&#x27;fnlwgt&#x27;</span>],bins=<span class="number">20</span>,right=<span class="literal">True</span>)</span><br></pre></td></tr></table></figure>
+<p>其他本身就已是离散型的特征就不需要处理了</p>
+<p>继续划分训练集和测试集</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#划分训练集和测试集,设置变量,为下面训练做准备</span></span><br><span class="line">train_data=df.sample(frac=<span class="number">0.7</span>, random_state=<span class="number">0</span>,axis=<span class="number">0</span>)</span><br><span class="line">test_data=df[~df.index.isin(train_data.index)]</span><br><span class="line"></span><br><span class="line">df_x = df.drop(columns=<span class="string">&quot;target&quot;</span>)</span><br><span class="line">df_y = df[<span class="string">&quot;target&quot;</span>].values</span><br><span class="line"></span><br><span class="line">trainX=train_data.drop(columns=<span class="string">&quot;target&quot;</span>)</span><br><span class="line">trainY=train_data[<span class="string">&#x27;target&#x27;</span>]</span><br><span class="line">testX=test_data.drop(columns=<span class="string">&quot;target&quot;</span>)</span><br><span class="line">testY=test_data[<span class="string">&#x27;target&#x27;</span>]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>接下来我们需要实现朴树贝叶斯,以下代码来自他人之手,进行了完善修改</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">NaiveBayes</span>(<span class="params"><span class="built_in">object</span></span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, X_train, y_train</span>):</span></span><br><span class="line">        self.X_train = X_train  <span class="comment">#样本特征</span></span><br><span class="line">        self.y_train = y_train  <span class="comment">#样本类别</span></span><br><span class="line">        <span class="comment">#训练集样本中每个类别(二分类)的占比，即P(类别)，供后续使用</span></span><br><span class="line">        self.P_label = &#123;<span class="number">1</span>: np.mean(y_train.values), <span class="number">0</span>: <span class="number">1</span>-np.mean(y_train.values)&#125;</span><br><span class="line"> </span><br><span class="line">    <span class="comment">#在数据集data中, 特征feature的值为value的样本所占比例</span></span><br><span class="line">    <span class="comment">#用于计算P(特征|类别)、P(特征)</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">getFrequency</span>(<span class="params">self, data, feature, value</span>):</span></span><br><span class="line">        num = <span class="built_in">len</span>(data[data[feature]==value]) <span class="comment">#个数</span></span><br><span class="line">        <span class="keyword">return</span> num / (<span class="built_in">len</span>(data))</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">predict</span>(<span class="params">self, X_test</span>):</span></span><br><span class="line">        self.prediction = [] <span class="comment">#预测类别</span></span><br><span class="line">        <span class="comment"># 遍历样本</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(X_test)):</span><br><span class="line">            x = X_test.iloc[i]      <span class="comment"># 第i个样本</span></span><br><span class="line">            P_feature_label0 = <span class="number">1</span>    <span class="comment"># P(特征|类别0)之和</span></span><br><span class="line">            P_feature_label1 = <span class="number">1</span>    <span class="comment"># P(特征|类别1)之和</span></span><br><span class="line">            P_feature = <span class="number">1</span>           <span class="comment"># P(特征)之和</span></span><br><span class="line">            <span class="comment"># 遍历特征</span></span><br><span class="line">            <span class="keyword">for</span> feature <span class="keyword">in</span> X_test.columns:</span><br><span class="line">                <span class="comment"># 分子项，P(特征|类别)</span></span><br><span class="line">                data0 = self.X_train[self.y_train.values==<span class="number">0</span>]  <span class="comment">#取类别为0的样本</span></span><br><span class="line">                P_feature_label0 *= self.getFrequency(data0, feature, x[feature]) <span class="comment">#计算P(feature|0)</span></span><br><span class="line"> </span><br><span class="line">                data1 = self.X_train[self.y_train.values==<span class="number">1</span>]  <span class="comment">#取类别为1的样本</span></span><br><span class="line">                P_feature_label1 *= self.getFrequency(data1, feature, x[feature]) <span class="comment">#计算P(feature|1)</span></span><br><span class="line"> </span><br><span class="line">                <span class="comment"># 分母项，P(特征)</span></span><br><span class="line">                P_feature *= self.getFrequency(self.X_train, feature, x[feature])</span><br><span class="line"> </span><br><span class="line">            <span class="comment">#属于每个类别的概率</span></span><br><span class="line">            <span class="keyword">if</span> i%<span class="number">25</span>==<span class="number">0</span>:</span><br><span class="line">                <span class="comment"># print (&#x27;...&#x27;)</span></span><br><span class="line">                print(<span class="string">&quot;预测第&quot;</span>,i,<span class="string">&quot;个&quot;</span>)</span><br><span class="line">                print(P_feature_label0)</span><br><span class="line">                print(P_feature_label1)</span><br><span class="line">            P_0 = (P_feature_label0*self.P_label[<span class="number">0</span>]) / P_feature</span><br><span class="line">            P_1 = (P_feature_label1 * self.P_label[<span class="number">1</span>]) / P_feature</span><br><span class="line">            <span class="comment">#选出大概率值对应的类别</span></span><br><span class="line">            self.prediction.append([<span class="number">1</span> <span class="keyword">if</span> P_1&gt;=P_0 <span class="keyword">else</span> <span class="number">0</span>])</span><br><span class="line">        <span class="keyword">return</span> self.prediction</span><br><span class="line"><span class="comment">#from https://blog.csdn.net/weixin_39710249/article/details/111373540</span></span><br></pre></td></tr></table></figure>
+<p>调用该类训练预测</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">model = NaiveBayes(trainX, trainY)  </span><br><span class="line">y_pre = model.predict(testX)    </span><br><span class="line">print(y_pre)     </span><br></pre></td></tr></table></figure>
+<p>计算准确率:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> accuracy_score</span><br><span class="line">print(<span class="string">&quot;准确率：&quot;</span>,accuracy_score(y_pre, testY))</span><br></pre></td></tr></table></figure>
+<p>计算auc值:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#auc值</span></span><br><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> roc_auc_score</span><br><span class="line">auc_score = roc_auc_score(testY,y_pre)</span><br><span class="line">print(<span class="string">&quot;AUC值:&quot;</span>,auc_score)</span><br></pre></td></tr></table></figure>
+<h1 id="源码文件"><a href="#源码文件" class="headerlink" title="源码文件"></a>源码文件</h1><p> <a target="_blank" rel="noopener" href="https://github.com/HK560/MyMachineLearning/tree/main/experiment2">Github</a></p>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><ul>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_39710249/article/details/111373540">朴素贝叶斯代码_《机器学习》之 朴素贝叶斯原理及代码</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/45835659">逻辑回归模型预测成年人收入水平</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/hohaizx/article/details/79084774">基于决策树和朴素贝叶斯算法对Adult数据集分类</a></li>
+</ul>
+</article><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%AD%A6%E4%B9%A0/">学习</a><a class="post-meta__tags" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a><a class="post-meta__tags" href="/tags/python/">python</a></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/gh/HK560/MyPicHub@master/res/pic/Avg_bg_bg_20_G03.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/FixedvscodeterminalScriptForbiddenToRun/"><img class="prev-cover" src="https://cdn.jsdelivr.net/gh/HK560/MyPicHub/res/pic/Avg_bg_lungmencommand_压缩.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">解决vscode终端执行hexo命令提示无法加载文件因为在此系统上禁止运行脚本</div></div></a></div><div class="next-post pull-right"><a href="/Piexl4Tools/"><img class="next-cover" src="https://cdn.jsdelivr.net/gh/HK560/MyPicHub/res/pic/Avg_bg_0_am_压缩.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Google Pixel4 玩机教程资源整理收集</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/CleanCodeReadingNotes/" title="《代码整洁之道》阅读笔记"><img class="cover" src="https://cdn.jsdelivr.net/gh/HK560/MyPicHub/res/pic/Avg_avg_6_9_压缩.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-12-07</div><div class="title">《代码整洁之道》阅读笔记</div></div></a></div><div><a href="/GaforTSP_inQT/" title="QT实现使用遗传算法解决旅行商TSP问题"><img class="cover" src="https://cdn.jsdelivr.net/gh/HK560/MyPicHub@master/res/pic/Avg_bg_bg_23_G08.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-11-26</div><div class="title">QT实现使用遗传算法解决旅行商TSP问题</div></div></a></div><div><a href="/c-Use2dMap/" title="STL C++ 二维MAP查找find()函数的使用"><img class="cover" src="https://cdn.jsdelivr.net/gh/HK560/MyPicHub/res/pic/Avg_avg_6_9_压缩.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-12-10</div><div class="title">STL C++ 二维MAP查找find()函数的使用</div></div></a></div><div><a href="/hppfile/" title="C++中，hpp文件的使用"><img class="cover" src="https://cdn.jsdelivr.net/gh/HK560/MyPicHub/res/pic/Avg_bg_lungmencommand_压缩.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-05-08</div><div class="title">C++中，hpp文件的使用</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://cdn.jsdelivr.net/gh/HK560/MyPicHub@master/res/pic/hurAvatar_new.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">HK560</div><div class="author-info__description">"与光同尘"<br>C++QT爱好者|音乐游戏硬件迷<br>喜欢研究兴趣项目背后的技术<br>努力学习中！</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">22</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">18</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/hk560"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/hk560" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:lan2496846801@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a><a class="social-icon" href="tencent://message/?uin=2496846801&amp;Site=&amp;Menu=yes" target="_blank" title="QQ"><i class="fab fa-qq"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">无论如何，欢迎来到我的博客。</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%94%BE%E5%9C%A8%E6%9C%80%E5%89%8D%E9%9D%A2"><span class="toc-number">1.</span> <span class="toc-text">放在最前面</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C%E9%A2%98%E7%9B%AE"><span class="toc-number">2.</span> <span class="toc-text">实验题目</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C%E5%86%85%E5%AE%B9%E5%8F%8A%E6%AD%A5%E9%AA%A4"><span class="toc-number">3.</span> <span class="toc-text">实验内容及步骤</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E9%9B%86%E4%B8%8B%E8%BD%BD%E5%A4%84%E7%90%86"><span class="toc-number">3.1.</span> <span class="toc-text">数据集下载处理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92%E5%88%86%E7%B1%BB"><span class="toc-number">3.1.1.</span> <span class="toc-text">1.逻辑回归分类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%9C%B4%E6%A0%91%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%88%86%E7%B1%BB"><span class="toc-number">3.1.2.</span> <span class="toc-text">2.朴树贝叶斯分类</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%BA%90%E7%A0%81%E6%96%87%E4%BB%B6"><span class="toc-number">4.</span> <span class="toc-text">源码文件</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Reference"><span class="toc-number">5.</span> <span class="toc-text">Reference</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/c-Use2dMap/" title="STL C++ 二维MAP查找find()函数的使用"><img src="https://cdn.jsdelivr.net/gh/HK560/MyPicHub/res/pic/Avg_avg_6_9_压缩.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="STL C++ 二维MAP查找find()函数的使用"/></a><div class="content"><a class="title" href="/c-Use2dMap/" title="STL C++ 二维MAP查找find()函数的使用">STL C++ 二维MAP查找find()函数的使用</a><time datetime="2023-12-10T03:29:25.069Z" title="发表于 2023-12-10 11:29:25">2023-12-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/qmaindowsRadiusSetting/" title="QT中使用QSS将QMainWindow设置为圆角边框"><img src="https://cdn.jsdelivr.net/gh/HK560/MyPicHub@master/res/pic/Avg_bg_bg_20_G03.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="QT中使用QSS将QMainWindow设置为圆角边框"/></a><div class="content"><a class="title" href="/qmaindowsRadiusSetting/" title="QT中使用QSS将QMainWindow设置为圆角边框">QT中使用QSS将QMainWindow设置为圆角边框</a><time datetime="2022-07-13T11:13:35.000Z" title="发表于 2022-07-13 19:13:35">2022-07-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/qssCommentsInvaild/" title="QtQSS注释导致效果失效原因"><img src="https://cdn.jsdelivr.net/gh/HK560/MyPicHub/res/pic/Avg_bg_rhodescom_压缩.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="QtQSS注释导致效果失效原因"/></a><div class="content"><a class="title" href="/qssCommentsInvaild/" title="QtQSS注释导致效果失效原因">QtQSS注释导致效果失效原因</a><time datetime="2022-07-13T10:30:12.000Z" title="发表于 2022-07-13 18:30:12">2022-07-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/raspberryPiSSHdenied/" title="树莓派2022新版系统首次启动SSH连接拒绝解决办法"><img src="https://cdn.jsdelivr.net/gh/HK560/MyPicHub@master/res/pic/071911_nZth_4937141.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="树莓派2022新版系统首次启动SSH连接拒绝解决办法"/></a><div class="content"><a class="title" href="/raspberryPiSSHdenied/" title="树莓派2022新版系统首次启动SSH连接拒绝解决办法">树莓派2022新版系统首次启动SSH连接拒绝解决办法</a><time datetime="2022-07-12T12:04:05.000Z" title="发表于 2022-07-12 20:04:05">2022-07-12</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/qtQbytearraytoqstring/" title="QT QByteArray和QString十六进制互相转换"><img src="https://cdn.jsdelivr.net/gh/HK560/MyPicHub/res/pic/Avg_bg_0_am_压缩.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="QT QByteArray和QString十六进制互相转换"/></a><div class="content"><a class="title" href="/qtQbytearraytoqstring/" title="QT QByteArray和QString十六进制互相转换">QT QByteArray和QString十六进制互相转换</a><time datetime="2022-07-06T11:59:23.000Z" title="发表于 2022-07-06 19:59:23">2022-07-06</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By HK560</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Great ideals but through selfless struggle and sacrifice to achieve.</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">简</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><script src="/js/search/local-search.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: 'YUxPrUWdqW1073YnrUKvLGFd-gzGzoHsz',
+      appKey: 'nQKKGTSqQW1k8Kus9J3RKonH',
+      placeholder: '这里可以评论唔...',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: false,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: false,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script defer="defer" id="fluttering_ribbon" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-fluttering-ribbon.min.js"></script><script id="canvas_nest" defer="defer" color="255,255,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = false;
+POWERMODE.mobile = true;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-show-text" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/click-show-text.min.js" data-mobile="false" data-text="HK560,elbadaernU" data-fontsize="15px" data-random="true" async="async"></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/gh/metowolf/MetingJS@1.2/dist/Meting.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>let pjaxSelectors = [
+  'title',
+  '#config-diff',
+  '#body-wrap',
+  '#rightside-config-hide',
+  '#rightside-config-show',
+  '.js-pjax'
+]
+
+if (false) {
+  pjaxSelectors.unshift('meta[property="og:image"]', 'meta[property="og:title"]', 'meta[property="og:url"]')
+}
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener scroll 
+  window.removeEventListener('scroll', window.tocScrollFn)
+  window.removeEventListener('scroll', scrollCollect)
+
+  typeof preloader === 'object' && preloader.initLoading()
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof chatBtnFn === 'function' && chatBtnFn()
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // Analytics
+  if (false) {
+    MtaH5.pgv()
+  }
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+
+  typeof preloader === 'object' && preloader.endLoading()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
