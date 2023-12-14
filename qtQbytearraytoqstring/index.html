@@ -1,7 +1,7 @@
 <!DOCTYPE html><html lang="zh-CN" data-theme="dark"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>QT QByteArray和QString十六进制互相转换 | elbadaernU</title><meta name="keywords" content="QT,技术"><meta name="author" content="HK560"><meta name="copyright" content="HK560"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#0d0d0d"><meta name="description" content="前言在使用QT进行串口通信时候总会涉及到QByteArray和QString互相转换还有十六进制的问题，这里写一下大概转换的方法 转换QString 转 QByteArray以下这三种都可以，区别主要是表现的字符集范围，详细看官方注释 1234567891011121314QString str(&quot;HelloWorld&quot;);  QByteArray bytes &#x3D; str.to">
 <meta property="og:type" content="article">
 <meta property="og:title" content="QT QByteArray和QString十六进制互相转换">
-<meta property="og:url" content="https://blog.hk560.top/qtQbytearraytoqstring/index.html">
+<meta property="og:url" content="https://blog.elbadaernu.com/qtQbytearraytoqstring/index.html">
 <meta property="og:site_name" content="elbadaernU">
 <meta property="og:description" content="前言在使用QT进行串口通信时候总会涉及到QByteArray和QString互相转换还有十六进制的问题，这里写一下大概转换的方法 转换QString 转 QByteArray以下这三种都可以，区别主要是表现的字符集范围，详细看官方注释 1234567891011121314QString str(&quot;HelloWorld&quot;);  QByteArray bytes &#x3D; str.to">
 <meta property="og:locale" content="zh_CN">
@@ -12,7 +12,7 @@
 <meta property="article:tag" content="QT">
 <meta property="article:tag" content="技术">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/HK560/MyPicHub/res/pic/Avg_bg_0_am_压缩.jpg"><link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/HK560/MyPicHub/res/pic/blogLogo.jpg"><link rel="canonical" href="https://blog.hk560.top/qtQbytearraytoqstring/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Saira+Semi+Condensed:wght@100&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/HK560/MyPicHub/res/pic/Avg_bg_0_am_压缩.jpg"><link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/HK560/MyPicHub/res/pic/blogLogo.jpg"><link rel="canonical" href="https://blog.elbadaernu.com/qtQbytearraytoqstring/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Saira+Semi+Condensed:wght@100&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
   root: '/',
   algolia: undefined,
   localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},

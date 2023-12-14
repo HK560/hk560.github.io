@@ -1,7 +1,7 @@
 <!DOCTYPE html><html lang="zh-CN" data-theme="dark"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>QT实现使用遗传算法解决旅行商TSP问题 | elbadaernU</title><meta name="keywords" content="学习,QT"><meta name="author" content="HK560"><meta name="copyright" content="HK560"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#0d0d0d"><meta name="description" content="放在前面 来自广州大学人工智能实验 仅记录代码实现过程思路,不对涉及知识过多讲解遗传算法解决旅行商问题一 对旅行商问题进行编码旅行商问题,目标是求一个走过所有目标地点尽量最短的路径。我们可以将这个路径视为一个数组,数组中的每个元素就是经过的城市的编号,元素的排列顺序就是走过地点的顺序。以遗传算法的视角来看,该数组(路径)中的元素相当于基因,但是这个基因并不重复,因为旅行商问题不会重复走过同一个地点">
 <meta property="og:type" content="article">
 <meta property="og:title" content="QT实现使用遗传算法解决旅行商TSP问题">
-<meta property="og:url" content="https://blog.hk560.top/GaforTSP_inQT/index.html">
+<meta property="og:url" content="https://blog.elbadaernu.com/GaforTSP_inQT/index.html">
 <meta property="og:site_name" content="elbadaernU">
 <meta property="og:description" content="放在前面 来自广州大学人工智能实验 仅记录代码实现过程思路,不对涉及知识过多讲解遗传算法解决旅行商问题一 对旅行商问题进行编码旅行商问题,目标是求一个走过所有目标地点尽量最短的路径。我们可以将这个路径视为一个数组,数组中的每个元素就是经过的城市的编号,元素的排列顺序就是走过地点的顺序。以遗传算法的视角来看,该数组(路径)中的元素相当于基因,但是这个基因并不重复,因为旅行商问题不会重复走过同一个地点">
 <meta property="og:locale" content="zh_CN">
@@ -12,7 +12,7 @@
 <meta property="article:tag" content="学习">
 <meta property="article:tag" content="QT">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/HK560/MyPicHub@master/res/pic/Avg_bg_bg_23_G08.png"><link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/HK560/MyPicHub/res/pic/blogLogo.jpg"><link rel="canonical" href="https://blog.hk560.top/GaforTSP_inQT/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Saira+Semi+Condensed:wght@100&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/HK560/MyPicHub@master/res/pic/Avg_bg_bg_23_G08.png"><link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/HK560/MyPicHub/res/pic/blogLogo.jpg"><link rel="canonical" href="https://blog.elbadaernu.com/GaforTSP_inQT/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Saira+Semi+Condensed:wght@100&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
   root: '/',
   algolia: undefined,
   localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},

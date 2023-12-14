@@ -1,7 +1,7 @@
 <!DOCTYPE html><html lang="zh-CN" data-theme="dark"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>QtQSS注释导致效果失效原因 | elbadaernU</title><meta name="keywords" content="QT,技术"><meta name="author" content="HK560"><meta name="copyright" content="HK560"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#0d0d0d"><meta name="description" content="前言QSS注释某一部分之后导致后面的控件设置的QSS失效 这大概率是你嵌套注释了,QSS同CSS一样是不允许嵌套注释的 原因如下代码中QWidget#centralwidget已经存在部分注释 123456789101112131415QWidget&amp;#123;    &#x2F;* background-color: #48a5fd; *&#x2F;    border-radius: 15px;    font-">
 <meta property="og:type" content="article">
 <meta property="og:title" content="QtQSS注释导致效果失效原因">
-<meta property="og:url" content="https://blog.hk560.top/qssCommentsInvaild/index.html">
+<meta property="og:url" content="https://blog.elbadaernu.com/qssCommentsInvaild/index.html">
 <meta property="og:site_name" content="elbadaernU">
 <meta property="og:description" content="前言QSS注释某一部分之后导致后面的控件设置的QSS失效 这大概率是你嵌套注释了,QSS同CSS一样是不允许嵌套注释的 原因如下代码中QWidget#centralwidget已经存在部分注释 123456789101112131415QWidget&amp;#123;    &#x2F;* background-color: #48a5fd; *&#x2F;    border-radius: 15px;    font-">
 <meta property="og:locale" content="zh_CN">
@@ -12,7 +12,7 @@
 <meta property="article:tag" content="QT">
 <meta property="article:tag" content="技术">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/HK560/MyPicHub/res/pic/Avg_bg_rhodescom_压缩.jpg"><link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/HK560/MyPicHub/res/pic/blogLogo.jpg"><link rel="canonical" href="https://blog.hk560.top/qssCommentsInvaild/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Saira+Semi+Condensed:wght@100&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/HK560/MyPicHub/res/pic/Avg_bg_rhodescom_压缩.jpg"><link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/HK560/MyPicHub/res/pic/blogLogo.jpg"><link rel="canonical" href="https://blog.elbadaernu.com/qssCommentsInvaild/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Saira+Semi+Condensed:wght@100&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
   root: '/',
   algolia: undefined,
   localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},

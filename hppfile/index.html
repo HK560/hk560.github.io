@@ -1,7 +1,7 @@
 <!DOCTYPE html><html lang="zh-CN" data-theme="dark"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>C++中，hpp文件的使用 | elbadaernU</title><meta name="keywords" content="学习,C++"><meta name="author" content="HK560"><meta name="copyright" content="HK560"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#0d0d0d"><meta name="description" content="hpp文件是Header plus plus的缩写，实质是将.cpp的实现代码混入.h头文件，即声明与定义（实现）都包含在同一个文件中。 该类的调用者只需要include该hpp文件即可，无需再将cpp加入到project中进行编译。 实现代码将直接编译到调用者的obj文件中，不再生成单独的obj。 采用hpp将大幅度减小project中的cpp文件数与编译次数，也不再发布烦人的lib与dll，因">
 <meta property="og:type" content="article">
 <meta property="og:title" content="C++中，hpp文件的使用">
-<meta property="og:url" content="https://blog.hk560.top/hppfile/index.html">
+<meta property="og:url" content="https://blog.elbadaernu.com/hppfile/index.html">
 <meta property="og:site_name" content="elbadaernU">
 <meta property="og:description" content="hpp文件是Header plus plus的缩写，实质是将.cpp的实现代码混入.h头文件，即声明与定义（实现）都包含在同一个文件中。 该类的调用者只需要include该hpp文件即可，无需再将cpp加入到project中进行编译。 实现代码将直接编译到调用者的obj文件中，不再生成单独的obj。 采用hpp将大幅度减小project中的cpp文件数与编译次数，也不再发布烦人的lib与dll，因">
 <meta property="og:locale" content="zh_CN">
@@ -12,7 +12,7 @@
 <meta property="article:tag" content="学习">
 <meta property="article:tag" content="C++">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/HK560/MyPicHub/res/pic/Avg_bg_lungmencommand_压缩.jpg"><link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/HK560/MyPicHub/res/pic/blogLogo.jpg"><link rel="canonical" href="https://blog.hk560.top/hppfile/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Saira+Semi+Condensed:wght@100&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/HK560/MyPicHub/res/pic/Avg_bg_lungmencommand_压缩.jpg"><link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/HK560/MyPicHub/res/pic/blogLogo.jpg"><link rel="canonical" href="https://blog.elbadaernu.com/hppfile/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Saira+Semi+Condensed:wght@100&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
   root: '/',
   algolia: undefined,
   localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
